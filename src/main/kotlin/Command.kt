@@ -15,15 +15,15 @@ object Command {
             HELP -> Message.HELP.display()
             PARK -> {
                 println("Введите данные машины в формате: Модель Цвет Номер Имя_Владельца Фамилия_Владельца")
-                val carInfo: String = readln()
-                val list = carInfo.split(" ")
-                if (list.size != 5 || list[2].toIntOrNull() == null || list[3].contains(Regex("[0-9]")) || list[3].contains(
-                        Regex("[0-9]")
-                    )
-                ) {
-                    println("Неверный нормат данных. Введите команду снова.")
+                val carData = readln().split("\\s+".toRegex())
+                if (!rightParkInputLen(carData) || carData[2].isNotANumber() || carData[3].containsNumbers() || carData[4].containsNumbers()) {
+                    println("Неверный формат данных. Введите команду снова.")
                 } else {
-                    Manager.parkCar(Car(list[0], list[1], list[2], Owner(list[3], list[4])))
+                    Manager.parkCar(
+                        Car(
+                            carData[0], carData[1], carData[2], Owner(carData[3], carData[4])
+                        )
+                    )
                 }
             }
             RETURN -> {
@@ -33,14 +33,11 @@ object Command {
                     println("Неверный формат данных. Введите команду снова.")
                 } else {
                     println("Введите владельца в формате: Имя Фамилия")
-                    val list = readln().split(" ", limit = 2)
-                    if (list.size != 2 || list[0].contains(Regex("[0-9]")) || list[1].contains(
-                            Regex("[0-9]")
-                        )
-                    ) {
+                    val ownerData = readln().split("\\s+".toRegex(), limit = 2)
+                    if (!rightReturnInputLen(ownerData) || ownerData[0].containsNumbers() || ownerData[1].containsNumbers()) {
                         println("Неверный формат данных. Введите команду снова.")
                     } else {
-                        Manager.returnCar(id, Owner(list[0], list[1]))
+                        Manager.returnCar(id, Owner(ownerData[0], ownerData[1]))
                     }
 
                 }
@@ -48,17 +45,16 @@ object Command {
             PARK_INFO_BY_CAR -> {
                 println("Введите номер машины:")
                 val carId = readln()
-
-                if (carId.toIntOrNull() == null) {
+                if (carId.isNotANumber()) {
                     println("Некорректный формат номера. Номер состоит из цифр. Введите команду снова.")
                 } else Manager.getParkInfoById(carId)
             }
             PARK_INFO_BY_PLACE -> {
                 println("Введите номер парковочного места:")
-                val id = readln().toIntOrNull()
-                if (id == null) {
+                val id = readln()
+                if (id.isNotANumber()) {
                     println("Некорректный формат номера. Номер состоит из цифр. Введите команду снова.")
-                } else Manager.getParkInfoByPlace(id)
+                } else Manager.getParkInfoByPlace(id.toInt())
             }
             END -> {
                 Message.END.display()
@@ -67,7 +63,16 @@ object Command {
             else -> Message.NOT_A_COMMAND.display()
         }
         return true
+
     }
+
+    fun String.isNotANumber(): Boolean = toIntOrNull() == null
+
+    fun String.containsNumbers(): Boolean = contains(Regex("[0-9]"))
+
+    fun rightParkInputLen(list: List<String>) = list.size == 5
+
+    fun rightReturnInputLen(list: List<String>) = list.size == 2
 
 
 }

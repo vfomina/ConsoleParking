@@ -11,7 +11,6 @@ object Manager {
             println("Неверные данные владельца")
             return
         }
-
         Parking.parkingPlaces[placeId-1].car = null
         println("Машина возвращена. Парковочное место P$placeId свободно.")
     }
@@ -57,8 +56,6 @@ object Manager {
             println("Успешно!")
             return true
         }
-
-
     }
 
     fun getParkStats() {}
