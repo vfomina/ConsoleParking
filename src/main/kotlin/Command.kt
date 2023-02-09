@@ -8,6 +8,8 @@ object Command {
     const val RETURN: String = "/return"
     const val PARK_INFO_BY_CAR: String = "/park_info_by_car"
     const val PARK_INFO_BY_PLACE: String = "/park_info_by_place"
+    const val PARK_STATS: String = "/park_stats"
+    const val PARK_ALL_STATS: String = "/park_all_stats"
 
     fun run(command: String): Boolean {
         when (command) {
@@ -56,6 +58,8 @@ object Command {
                     println("Некорректный формат номера. Номер состоит из цифр. Введите команду снова.")
                 } else Manager.getParkInfoByPlace(id.toInt())
             }
+            PARK_STATS -> { Manager.getParkStats() }
+            PARK_ALL_STATS -> { Manager.getParkAllStats() }
             END -> {
                 Message.END.display()
                 return false

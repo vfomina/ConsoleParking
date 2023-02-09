@@ -6,12 +6,11 @@ object Manager {
         if (placeId == null) {
             Message.CAR_NOT_FOUND.display()
             return
-        } else if (Parking.parkingPlaces[placeId-1].car?.owner != owner) {
-            println(Parking.parkingPlaces[placeId-1].car?.owner)
+        } else if (Parking.parkingPlaces[placeId - 1].car?.owner != owner) {
             println("Неверные данные владельца")
             return
         }
-        Parking.parkingPlaces[placeId-1].car = null
+        Parking.parkingPlaces[placeId - 1].car = null
         println("Машина возвращена. Парковочное место P$placeId свободно.")
     }
 
@@ -21,7 +20,7 @@ object Manager {
             println("Неверный номер парковочного места. В парковке ${Parking.parkingPlaces.size} мест")
             return
         }
-        val car = Parking.parkingPlaces[id-1].car
+        val car = Parking.parkingPlaces[id - 1].car
         if (car == null) {
             println("Данное парковочное место свободно")
         } else {
@@ -53,13 +52,18 @@ object Manager {
                 return false
             }
             Parking.parkingPlaces.first { it.car == null }.car = newCar
+            Parking.allCarsParked.add(newCar)
             println("Успешно!")
             return true
         }
     }
 
-    fun getParkStats() {}
+    fun getParkStats() {
+        for (place in Parking.parkingPlaces) {
+            println(place)
+        }
+    }
 
-    fun getParkAllStats() {}
+    fun getParkAllStats() = println(Parking.allCarsParked.size)
 
 }
