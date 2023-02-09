@@ -1,6 +1,15 @@
 object Parking {
-    val parkingPlace = mutableMapOf<Int,Car?>()
+    val parkingPlaces = buildList<ParkingPlace> {
+        for (i in 1..20) add(ParkingPlace(i))
+    }
 
-    val carsParked: Int
-        get() = parkingPlace.size
+    fun isFull(): Boolean {
+        for (place in parkingPlaces) {
+            if (place.isEmpty) {
+                return false
+            }
+        }
+        return true
+    }
+
 }

@@ -1,13 +1,20 @@
 enum class Message(val text: String) {
-    START("Hello! This is ConsoleParking program!"),
+    START("Привет! Это программа ConsoleParking! Введите команду для начала работы:"),
     HELP(
-        """/start - program displays a greeting
-/end - finishes the program."""
+        """/start - программа представляется,
+/park - автомобиль паркуется на любое свободное место, 
+/return - возвращает автомобиль владельцу,
+/park_info_by_car - возвращает место, где припаркована машина, по ее номеру,
+/park_info_by_place - возвращает информацию о машина по месту на парковке
+/end - программа завершает работу."""
     ),
-    END("Goodbye!"),
+    END("До свидания!"),
     NOT_A_COMMAND(
-        """There is no such command.
-Input /help to get existing commands."""
+        """Команда не найдена.
+Введите /help чтобы просмотреть существующие команды."""
+    ),
+    CAR_NOT_FOUND(
+        """На парковке нет такой машины."""
     );
 
     fun display() {
